@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VUIVUI ENGLISH CLASS - Irregular Verbs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6EFE0;
+    --bg-2:#EEE3CD;
+    --card:#FFFDF8;
+    --text:#1B1F3B;
+    --navy:#1B1F3B;
+    --coral:#E2574C;
+    --mint:#1F9D6C;
+    --gold:#C98A2B;
+    --sky:#2E7FC1;
+    --border:#E4D8BC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Be Vietnam Pro', sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+  }
+  h1,h2,h3{ font-family:'Baloo 2', sans-serif; }
+  .wrap{ max-width:760px; margin:0 auto; padding:18px 16px 60px; }
+  .topbar{ text-align:center; padding:14px 10px 6px; }
+  .topbar .brand{ font-weight:700; letter-spacing:1px; font-size:0.85rem; opacity:0.75; }
+  .topbar h1{ margin:4px 0 0; font-size:1.5rem; }
+  .screen{ display:none; }
+  .screen.active{ display:block; }
+
+  .card-box{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:22px 20px;
+    box-shadow:0 4px 14px rgba(27,31,59,0.06);
+    margin-bottom:18px;
+  }
+  .intro-list{ margin:0; padding-left:20px; }
+  .intro-list li{ margin-bottom:10px; line-height:1.5; }
+  .rule-box{
+    background:var(--bg-2);
+    border-left:5px solid var(--coral);
+    border-radius:10px;
+    padding:10px 14px;
+    margin:14px 0 4px;
+    font-weight:600;
+    line-height:1.5;
+  }
+
+  .btn{
+    display:inline-block;
+    border:none;
+    border-radius:14px;
+    padding:13px 24px;
+    font-family:'Baloo 2', sans-serif;
+    font-size:1.05rem;
+    font-weight:700;
+    cursor:pointer;
+    color:#fff;
+    background:var(--navy);
+    transition:transform .15s ease, opacity .15s ease;
+  }
+  .btn:active{ transform:scale(.97); }
+  .btn.secondary{ background:transparent; color:var(--navy); border:2px solid var(--navy); }
+  .btn.coral{ background:var(--coral); }
+  .btn.mint{ background:var(--mint); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+  .btn-row{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:16px; }
+
+  .section-tag{
+    display:inline-block;
+    background:var(--navy);
+    color:#fff;
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:.85rem;
+    padding:4px 14px;
+    border-radius:999px;
+    margin-bottom:10px;
+  }
+
+  /* ---- Flashcards ---- */
+  .flash-progress{ text-align:center; font-weight:600; margin-bottom:10px; }
+  .flash-stage{ perspective:1200px; height:300px; margin:0 auto 14px; max-width:480px; }
+  .flash-card{
+    position:relative; width:100%; height:100%; cursor:pointer;
+    transition:transform .5s; transform-style:preserve-3d;
+  }
+  .flash-card.flipped{ transform:rotateY(180deg); }
+  .flash-face{
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius:20px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:20px; text-align:center;
+    box-shadow:0 6px 18px rgba(27,31,59,.12);
+  }
+  .flash-front{ background:linear-gradient(160deg,#FFFDF8,#F1E6CC); border:2px solid var(--gold); }
+  .flash-back{ background:linear-gradient(160deg,var(--navy),#2b3163); color:#fff; transform:rotateY(180deg); }
+  .tag-small{
+    font-size:.72rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    padding:2px 10px; border-radius:999px; margin-bottom:8px;
+  }
+  .front .tag-small, .flash-front .tag-small{ background:var(--sky); color:#fff; }
+  .flash-back .tag-small{ background:var(--gold); color:#fff; }
+  .flash-word{ font-family:'Baloo 2',sans-serif; font-size:2.4rem; font-weight:800; line-height:1.1; }
+  .flash-front .flash-word{ color:var(--navy); }
+  .flash-ipa{ margin-top:6px; font-size:1.05rem; font-weight:600; }
+  .flash-front .flash-ipa{ color:var(--coral); }
+  .flash-back .flash-ipa{ color:#FFD58A; }
+  .flash-meaning{ margin-top:12px; font-size:1.25rem; font-weight:600; }
+  .flash-hint{ margin-top:14px; font-size:.82rem; color:#8a7d5c; }
+  .flash-example{ margin-top:14px; font-size:1rem; font-style:italic; line-height:1.45; }
+  .flash-example-vn{ margin-top:4px; font-size:.88rem; opacity:.8; }
+  .flash-nav{ display:flex; justify-content:center; gap:12px; align-items:center; flex-wrap:wrap; }
+  .flash-dots{
+    display:flex; flex-wrap:wrap; gap:6px; justify-content:center;
+    margin:12px auto 12px; max-width:480px;
+  }
+  .flash-dot{ width:10px; height:10px; border-radius:50%; background:var(--border); cursor:pointer; }
+  .flash-dot.seen{ background:var(--mint); }
+  .flash-dot.current{ background:var(--coral); transform:scale(1.35); }
+  .seen-count{ text-align:center; font-size:.9rem; color:#6b6350; }
+
+  /* ---- Sticky header ---- */
+  .sticky-header{
+    position:sticky; top:0; z-index:40; background:var(--bg);
+    padding:10px 0 8px; border-bottom:2px solid var(--border); margin-bottom:16px;
+  }
+  .stat-row{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+  .chip{
+    background:var(--card); border:1px solid var(--border); border-radius:999px;
+    padding:6px 14px; font-weight:700; font-size:.9rem; white-space:nowrap;
+  }
+  .chip.timer::before{ content:"⏱️ "; }
+  .chip.score::before{ content:"🎯 "; }
+  .chip.attempt{ color:var(--gold); }
+  .progress-wrap{ background:var(--bg-2); border-radius:999px; height:10px; overflow:hidden; margin-top:8px; }
+  .progress-bar{
+    height:100%; width:0%;
+    background:linear-gradient(90deg,var(--mint),var(--sky));
+    border-radius:999px; transition:width .3s ease;
+  }
+
+  /* ---- Question ---- */
+  .q-count{ font-weight:700; color:var(--gold); margin-bottom:6px; }
+  .q-type{ display:inline-block; font-size:.75rem; font-weight:700; padding:2px 10px; border-radius:999px; background:var(--bg-2); margin-left:6px; color:var(--navy); }
+  .q-main{ font-size:1.2rem; line-height:1.6; margin-bottom:8px; }
+  .q-blank{ font-weight:700; color:var(--coral); }
+  .q-vn{ color:#6b6350; font-size:.95rem; margin-bottom:10px; }
+  .q-hint{
+    background:var(--bg-2); border-left:4px solid var(--gold);
+    padding:8px 12px; border-radius:8px; font-size:.9rem; margin-bottom:14px;
+  }
+  .options{ display:flex; flex-direction:column; gap:10px; }
+  .option{
+    text-align:left; background:#fff; border:2px solid var(--border);
+    border-radius:12px; padding:12px 14px; font-size:1.05rem;
+    font-family:'Be Vietnam Pro',sans-serif; cursor:pointer; color:var(--text);
+    display:flex; gap:10px; align-items:center;
+  }
+  .option .letter{
+    width:26px; height:26px; border-radius:50%; background:var(--bg-2);
+    display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:.85rem; flex:none;
+  }
+  .option:hover:not(:disabled){ border-color:var(--sky); }
+  .option:disabled{ cursor:default; }
+  .option.correct{ border-color:var(--mint); background:#eafaf1; }
+  .option.wrong{ border-color:var(--coral); background:#fdecea; }
+  .answer-input{
+    width:100%; padding:12px 14px; border-radius:12px; border:2px solid var(--border);
+    font-size:1.1rem; font-family:'Be Vietnam Pro',sans-serif; background:#fff;
+  }
+  .answer-input:focus{ outline:none; border-color:var(--sky); }
+  .answer-input.correct{ border-color:var(--mint); background:#eafaf1; }
+  .answer-input.incorrect{ border-color:var(--coral); background:#fdecea; }
+  .feedback{ margin-top:12px; font-weight:700; border-radius:10px; padding:8px 12px; display:none; }
+  .feedback.show{ display:block; }
+  .feedback.correct{ background:#eafaf1; color:var(--mint); }
+  .feedback.incorrect{ background:#fdecea; color:var(--coral); }
+  .feedback .pattern{ display:block; margin-top:4px; color:var(--navy); font-weight:600; }
+
+  /* ---- Results ---- */
+  .badge{
+    display:block; text-align:center; font-family:'Baloo 2',sans-serif;
+    font-weight:800; font-size:1.15rem; padding:6px 16px; border-radius:999px;
+    width:fit-content; margin:0 auto 8px; color:#fff;
+  }
+  .badge.pass{ background:var(--mint); }
+  .badge.fail{ background:var(--coral); }
+  .result-score{ text-align:center; font-family:'Baloo 2',sans-serif; font-size:3rem; font-weight:800; line-height:1.1; }
+  .result-percent{ text-align:center; font-size:1.2rem; color:var(--gold); font-weight:700; margin-bottom:8px; }
+  .result-chips{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:12px; }
+  .result-msg{ text-align:center; font-size:1.1rem; margin:12px 0; line-height:1.5; }
+  .action-note{ border-radius:14px; padding:14px 16px; text-align:center; font-weight:700; line-height:1.5; margin-top:8px; }
+  .action-note.pass{ background:#eafaf1; color:var(--navy); border:2px solid var(--mint); }
+  .action-note.fail{ background:#fdecea; color:var(--navy); border:2px solid var(--coral); }
+  .action-note .emoji{ font-size:1.5rem; display:block; }
+  .missed-title{ font-weight:700; margin:16px 0 8px; }
+  .missed-list{ display:flex; flex-wrap:wrap; gap:8px; }
+  .missed-chip{ background:var(--bg-2); border-radius:999px; padding:4px 12px; font-size:.9rem; font-weight:600; }
+  .history{ margin-top:14px; font-size:.9rem; color:#6b6350; }
+  .history table{ width:100%; border-collapse:collapse; margin-top:6px; }
+  .history th,.history td{ text-align:center; padding:4px 6px; border-bottom:1px solid var(--border); }
+
+  @media (max-width:480px){
+    .flash-word{ font-size:2rem; }
+    .flash-stage{ height:290px; }
+    .result-score{ font-size:2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">VUIVUI ENGLISH CLASS</div>
+  <h1>IRREGULAR VERBS</h1>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ INTRO ============ -->
+  <div class="screen active" id="screen-intro">
+    <div class="card-box">
+      <h2 style="text-align:center;margin-top:0;">📋 Hướng dẫn chung</h2>
+      <ol class="intro-list">
+        <li><strong>Phần 1 – Flashcard:</strong> Học <span id="intro-total">34</span> động từ bất quy tắc. Mặt trước có động từ nguyên mẫu (V-inf), phiên âm và nghĩa; chạm vào thẻ để lật xem dạng quá khứ (P1), phiên âm và câu ví dụ.</li>
+        <li><strong>Phần 2 – Bài tập:</strong> Gồm câu trắc nghiệm và câu tự luận (tự gõ đáp án) trộn lẫn nhau. Tổng cộng <strong>68 câu</strong>: mỗi động từ xuất hiện <strong>2 lần</strong>, một lần dạng trắc nghiệm và một lần dạng tự luận.</li>
+        <li>Có <strong>đồng hồ đếm giờ</strong>, <strong>thanh tiến độ</strong> và số câu đúng luôn hiển thị phía trên khi em làm bài. Đúng hay sai sẽ hiện ngay sau mỗi câu.</li>
+        <li>Em cần đạt <strong>từ 80% trở lên</strong> mới hoàn thành. Nếu chưa đạt, em hãy ôn lại flashcard và làm lại (đề sẽ được xáo trộn mỗi lần làm).</li>
+        <li>Khi đạt từ 80%, hãy <strong>chụp ảnh màn hình kết quả và gửi cho cô</strong> nhé!</li>
+      </ol>
+      <div class="rule-box">🎯 Mục tiêu: thành thạo toàn bộ động từ bất quy tắc trong bảng. Đạt từ 80% trở lên mới được gửi kết quả cho cô.</div>
+      <div class="btn-row">
+        <button class="btn" id="btn-start-flashcards">Bắt đầu Phần 1: Flashcard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FLASHCARDS ============ -->
+  <div class="screen" id="screen-flashcards">
+    <span class="section-tag">PHẦN 1 · FLASHCARD</span>
+    <div class="flash-progress">Thẻ <span id="fc-index">1</span> / <span id="fc-total">34</span></div>
+
+    <div class="flash-stage">
+      <div class="flash-card" id="flash-card">
+        <div class="flash-face flash-front">
+          <div class="tag-small">V-inf · Nguyên mẫu</div>
+          <div class="flash-word" id="fc-inf">be</div>
+          <div class="flash-ipa" id="fc-ipa-inf">/biː/</div>
+          <div class="flash-meaning" id="fc-vn">là, ở</div>
+          <div class="flash-hint">👆 Chạm để xem dạng quá khứ</div>
+        </div>
+        <div class="flash-face flash-back">
+          <div class="tag-small">P1 · Quá khứ</div>
+          <div class="flash-word" id="fc-p1">was / were</div>
+          <div class="flash-ipa" id="fc-ipa-p1">/wɒz/ · /wɜː/</div>
+          <div class="flash-example" id="fc-ex">Example.</div>
+          <div class="flash-example-vn" id="fc-ex-vn">Ví dụ.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flash-nav">
+      <button class="btn secondary" id="fc-prev">‹ Trước</button>
+      <button class="btn secondary" id="fc-next">Tiếp ›</button>
+      <button class="btn secondary" id="fc-shuffle">🔀 Xáo trộn</button>
+    </div>
+    <div class="flash-dots" id="flash-dots"></div>
+    <div class="seen-count">Đã lật xem: <span id="fc-seen">0</span> / <span id="fc-seen-total">34</span> thẻ</div>
+
+    <div class="btn-row">
+      <button class="btn coral" id="btn-start-exercise">Chuyển sang Phần 2: Bài tập</button>
+    </div>
+  </div>
+
+  <!-- ============ EXERCISE ============ -->
+  <div class="screen" id="screen-exercise">
+    <div class="sticky-header" id="sticky-header">
+      <span class="section-tag">PHẦN 2 · BÀI TẬP</span>
+      <div class="stat-row">
+        <div class="chip timer" id="ex-timer">00:00</div>
+        <div class="chip attempt" id="ex-attempt">Lần 1</div>
+        <div class="chip score"><span id="ex-score">0/68</span> đúng</div>
+      </div>
+      <div class="progress-wrap"><div class="progress-bar" id="ex-progress"></div></div>
+    </div>
+
+    <div class="card-box">
+      <div class="q-count">Câu <span id="q-index">1</span> / <span id="q-total">68</span><span class="q-type" id="q-type"></span></div>
+      <div class="q-main" id="q-main"></div>
+      <div class="q-vn" id="q-vn"></div>
+      <div class="q-hint" id="q-hint"></div>
+
+      <div id="q-mcq" class="options"></div>
+
+      <div id="q-typed">
+        <input type="text" class="answer-input" id="answer-input" placeholder="Gõ đáp án của em..." autocomplete="off" autocapitalize="off" spellcheck="false">
+      </div>
+
+      <div class="feedback" id="q-feedback"></div>
+      <div class="btn-row">
+        <button class="btn" id="btn-check">Kiểm tra</button>
+        <button class="btn secondary" id="btn-next-q" style="display:none;">Câu tiếp theo ›</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ RESULTS ============ -->
+  <div class="screen" id="screen-results">
+    <div class="card-box">
+      <h2 style="text-align:center;margin-top:0;">Kết quả bài tập</h2>
+      <span class="badge" id="res-badge">ĐẠT</span>
+      <div class="result-score"><span id="res-score">0</span>/<span id="res-total">68</span></div>
+      <div class="result-percent" id="res-percent">0%</div>
+      <div class="result-chips">
+        <div class="chip timer" id="res-time">00:00</div>
+        <div class="chip attempt" id="res-attempt">Lần 1</div>
+      </div>
+      <div class="result-msg" id="res-msg"></div>
+      <div class="action-note" id="res-action"></div>
+
+      <div id="res-missed-wrap" style="display:none;">
+        <div class="missed-title">📝 Các động từ cần ôn lại:</div>
+        <div class="missed-list" id="res-missed"></div>
+      </div>
+
+      <div class="history" id="res-history"></div>
+
+      <div class="btn-row">
+        <button class="btn secondary" id="btn-review-cards">📚 Xem lại Flashcard</button>
+        <button class="btn coral" id="btn-retry">🔁 Làm lại bài tập</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+"use strict";
+
+/* ===================== DATA ===================== */
+// inf, ipaInf: nguyên mẫu + phiên âm (British); p1, ipaP1: quá khứ + phiên âm; vn: nghĩa;
+// ex/exVn: ví dụ trên flashcard; s/sVn: câu bài tập (có ____) + dịch; ans: đáp án điền câu;
+// dist: 2 đáp án nhiễu; p1Accept: các dạng gõ được chấp nhận cho "dạng quá khứ của ..."
+const VERBS = [
+  { inf:"be", ipaInf:"/biː/", p1:"was / were", ipaP1:"/wɒz/ · /wɜː/", vn:"là, ở",
+    ex:"I was happy. We were at home.", exVn:"Tôi đã vui. Chúng tôi đã ở nhà.",
+    s:"We ____ at the market yesterday.", sVn:"Hôm qua chúng tôi ở chợ.", ans:["were"], dist:["was","been"],
+    p1Accept:["was","were","was / were","was/were"] },
+  { inf:"begin", ipaInf:"/bɪˈgɪn/", p1:"began", ipaP1:"/bɪˈgæn/", vn:"bắt đầu",
+    ex:"The film began at nine.", exVn:"Bộ phim bắt đầu lúc chín giờ.",
+    s:"The lesson ____ at eight o'clock.", sVn:"Buổi học bắt đầu lúc 8 giờ.", ans:["began"], dist:["begun","beginned"] },
+  { inf:"break", ipaInf:"/breɪk/", p1:"broke", ipaP1:"/brəuk/", vn:"làm vỡ",
+    ex:"He broke a glass.", exVn:"Anh ấy làm vỡ một cái ly.",
+    s:"Tom ____ the cup this morning.", sVn:"Sáng nay Tom làm vỡ cái cốc.", ans:["broke"], dist:["broken","breaked"] },
+  { inf:"come", ipaInf:"/kʌm/", p1:"came", ipaP1:"/keɪm/", vn:"đến",
+    ex:"She came home late.", exVn:"Cô ấy về nhà muộn.",
+    s:"My cousin ____ to my house last Sunday.", sVn:"Chủ nhật tuần trước anh họ tôi đến nhà tôi.", ans:["came"], dist:["come","comed"] },
+  { inf:"draw", ipaInf:"/drɔː/", p1:"drew", ipaP1:"/druː/", vn:"vẽ",
+    ex:"I drew a cat.", exVn:"Tôi đã vẽ một con mèo.",
+    s:"She ____ a horse on the paper.", sVn:"Cô ấy vẽ một con ngựa lên tờ giấy.", ans:["drew"], dist:["drawed","drawn"] },
+  { inf:"drive", ipaInf:"/draɪv/", p1:"drove", ipaP1:"/drəuv/", vn:"lái xe",
+    ex:"Dad drove to work.", exVn:"Bố lái xe đi làm.",
+    s:"My father ____ me to school yesterday.", sVn:"Hôm qua bố chở tôi đến trường.", ans:["drove"], dist:["drived","driven"] },
+  { inf:"fall", ipaInf:"/fɔːl/", p1:"fell", ipaP1:"/fel/", vn:"ngã, rơi",
+    ex:"He fell off his bike.", exVn:"Cậu ấy ngã khỏi xe đạp.",
+    s:"The boy ____ near the river.", sVn:"Cậu bé ngã gần con sông.", ans:["fell"], dist:["falled","fallen"] },
+  { inf:"feed", ipaInf:"/fiːd/", p1:"fed", ipaP1:"/fed/", vn:"cho ăn",
+    ex:"I fed the dog.", exVn:"Tôi đã cho con chó ăn.",
+    s:"We ____ the pigs on the farm.", sVn:"Chúng tôi cho lợn ăn ở nông trại.", ans:["fed"], dist:["feeded","feed"] },
+  { inf:"feel", ipaInf:"/fiːl/", p1:"felt", ipaP1:"/felt/", vn:"cảm thấy",
+    ex:"I felt sad.", exVn:"Tôi cảm thấy buồn.",
+    s:"I ____ very tired after the long walk.", sVn:"Tôi cảm thấy rất mệt sau chuyến đi bộ dài.", ans:["felt"], dist:["feeled","fell"] },
+  { inf:"find", ipaInf:"/faɪnd/", p1:"found", ipaP1:"/faund/", vn:"tìm thấy",
+    ex:"She found her phone.", exVn:"Cô ấy tìm thấy điện thoại của mình.",
+    s:"She ____ her keys under the bed.", sVn:"Cô ấy tìm thấy chìa khóa dưới gầm giường.", ans:["found"], dist:["finded","find"] },
+  { inf:"forget", ipaInf:"/fəˈget/", p1:"forgot", ipaP1:"/fəˈgɒt/", vn:"quên",
+    ex:"I forgot his name.", exVn:"Tôi quên tên anh ấy.",
+    s:"I ____ my bag on the bus.", sVn:"Tôi quên túi trên xe buýt.", ans:["forgot"], dist:["forgotten","forgetted"] },
+  { inf:"get", ipaInf:"/get/", p1:"got", ipaP1:"/gɒt/", vn:"lên (xe), lấy",
+    ex:"We got home at six.", exVn:"Chúng tôi về đến nhà lúc sáu giờ.",
+    s:"We ____ on the bus at seven o'clock.", sVn:"Chúng tôi lên xe buýt lúc 7 giờ.", ans:["got"], dist:["getted","get"] },
+  { inf:"give", ipaInf:"/gɪv/", p1:"gave", ipaP1:"/geɪv/", vn:"cho, đưa",
+    ex:"She gave me a book.", exVn:"Cô ấy đưa cho tôi một quyển sách.",
+    s:"My uncle ____ me a new bike for my birthday.", sVn:"Chú tôi tặng tôi một chiếc xe đạp mới nhân dịp sinh nhật.", ans:["gave"], dist:["gived","given"] },
+  { inf:"go", ipaInf:"/gəu/", p1:"went", ipaP1:"/went/", vn:"đi",
+    ex:"We went to the beach.", exVn:"Chúng tôi đã đi biển.",
+    s:"They ____ to the cinema last night.", sVn:"Tối qua họ đi xem phim.", ans:["went"], dist:["goed","gone"] },
+  { inf:"grow", ipaInf:"/grəu/", p1:"grew", ipaP1:"/gruː/", vn:"mọc, lớn lên",
+    ex:"The tree grew fast.", exVn:"Cái cây lớn rất nhanh.",
+    s:"Their tomatoes ____ very well last summer.", sVn:"Cà chua nhà họ lớn rất tốt vào mùa hè năm ngoái.", ans:["grew"], dist:["growed","grown"] },
+  { inf:"have", ipaInf:"/hæv/", p1:"had", ipaP1:"/hæd/", vn:"có, ăn",
+    ex:"I had eggs for breakfast.", exVn:"Tôi đã ăn trứng vào bữa sáng.",
+    s:"We ____ fish and rice for lunch.", sVn:"Chúng tôi ăn cá và cơm vào bữa trưa.", ans:["had"], dist:["haved","has"] },
+  { inf:"hear", ipaInf:"/hɪə/", p1:"heard", ipaP1:"/hɜːd/", vn:"nghe thấy",
+    ex:"I heard a song.", exVn:"Tôi đã nghe thấy một bài hát.",
+    s:"I ____ a loud sound last night.", sVn:"Tối qua tôi nghe thấy một âm thanh rất to.", ans:["heard"], dist:["heared","hear"] },
+  { inf:"keep", ipaInf:"/kiːp/", p1:"kept", ipaP1:"/kept/", vn:"giữ",
+    ex:"She kept the letter.", exVn:"Cô ấy đã giữ lá thư.",
+    s:"She ____ the old letters in a box.", sVn:"Cô ấy giữ những lá thư cũ trong một cái hộp.", ans:["kept"], dist:["keeped","keep"] },
+  { inf:"lose", ipaInf:"/luːz/", p1:"lost", ipaP1:"/lɒst/", vn:"thua, mất",
+    ex:"He lost his bag.", exVn:"Anh ấy làm mất cái túi.",
+    s:"Our team ____ the match on Sunday.", sVn:"Đội của chúng tôi thua trận đấu hôm Chủ nhật.", ans:["lost"], dist:["losed","lose"] },
+  { inf:"make", ipaInf:"/meɪk/", p1:"made", ipaP1:"/meɪd/", vn:"làm, nấu",
+    ex:"I made some tea.", exVn:"Tôi đã pha một ít trà.",
+    s:"My mother ____ a big cake for my birthday.", sVn:"Mẹ tôi làm một chiếc bánh lớn cho sinh nhật tôi.", ans:["made"], dist:["maked","make"] },
+  { inf:"pay", ipaInf:"/peɪ/", p1:"paid", ipaP1:"/peɪd/", vn:"trả tiền",
+    ex:"I paid for the coffee.", exVn:"Tôi đã trả tiền cà phê.",
+    s:"He ____ ten dollars for the book.", sVn:"Anh ấy trả mười đô la cho quyển sách.", ans:["paid"], dist:["payed","pay"] },
+  { inf:"ride", ipaInf:"/raɪd/", p1:"rode", ipaP1:"/rəud/", vn:"cưỡi, đạp (xe)",
+    ex:"He rode a horse.", exVn:"Anh ấy đã cưỡi ngựa.",
+    s:"We ____ our bikes to the park.", sVn:"Chúng tôi đạp xe đến công viên.", ans:["rode"], dist:["rided","ridden"] },
+  { inf:"see", ipaInf:"/siː/", p1:"saw", ipaP1:"/sɔː/", vn:"nhìn thấy",
+    ex:"We saw a film.", exVn:"Chúng tôi đã xem một bộ phim.",
+    s:"I ____ a snake in the garden yesterday.", sVn:"Hôm qua tôi nhìn thấy một con rắn trong vườn.", ans:["saw"], dist:["seed","seen"] },
+  { inf:"say", ipaInf:"/seɪ/", p1:"said", ipaP1:"/sed/", vn:"nói",
+    ex:"She said hello.", exVn:"Cô ấy đã nói xin chào.",
+    s:"She ____ goodbye and went home.", sVn:"Cô ấy nói tạm biệt rồi về nhà.", ans:["said"], dist:["sayed","say"] },
+  { inf:"sell", ipaInf:"/sel/", p1:"sold", ipaP1:"/səuld/", vn:"bán",
+    ex:"They sold their car.", exVn:"Họ đã bán chiếc xe của mình.",
+    s:"The farmer ____ his horse last year.", sVn:"Người nông dân bán con ngựa của ông ấy năm ngoái.", ans:["sold"], dist:["selled","sell"] },
+  { inf:"sing", ipaInf:"/sɪŋ/", p1:"sang", ipaP1:"/sæŋ/", vn:"hát",
+    ex:"He sang a song.", exVn:"Anh ấy đã hát một bài hát.",
+    s:"The children ____ a happy song at school.", sVn:"Bọn trẻ hát một bài hát vui ở trường.", ans:["sang"], dist:["singed","sung"] },
+  { inf:"sit", ipaInf:"/sɪt/", p1:"sat", ipaP1:"/sæt/", vn:"ngồi",
+    ex:"I sat on a chair.", exVn:"Tôi đã ngồi trên một cái ghế.",
+    s:"We ____ by the window and talked.", sVn:"Chúng tôi ngồi bên cửa sổ và trò chuyện.", ans:["sat"], dist:["sitted","sit"] },
+  { inf:"speak", ipaInf:"/spiːk/", p1:"spoke", ipaP1:"/spəuk/", vn:"nói",
+    ex:"She spoke to the teacher.", exVn:"Cô ấy đã nói chuyện với giáo viên.",
+    s:"He ____ to me in English.", sVn:"Anh ấy nói chuyện với tôi bằng tiếng Anh.", ans:["spoke"], dist:["speaked","spoken"] },
+  { inf:"stand", ipaInf:"/stænd/", p1:"stood", ipaP1:"/stʊd/", vn:"đứng",
+    ex:"We stood in line.", exVn:"Chúng tôi đã đứng xếp hàng.",
+    s:"They ____ in a long line for tickets.", sVn:"Họ đứng xếp hàng dài để mua vé.", ans:["stood"], dist:["standed","stand"] },
+  { inf:"swim", ipaInf:"/swɪm/", p1:"swam", ipaP1:"/swæm/", vn:"bơi",
+    ex:"I swam in the sea.", exVn:"Tôi đã bơi ở biển.",
+    s:"We ____ in the sea every morning.", sVn:"Mỗi sáng chúng tôi bơi ở biển.", ans:["swam"], dist:["swimmed","swum"] },
+  { inf:"teach", ipaInf:"/tiːtʃ/", p1:"taught", ipaP1:"/tɔːt/", vn:"dạy",
+    ex:"He taught me music.", exVn:"Thầy ấy đã dạy tôi âm nhạc.",
+    s:"Mr Binh ____ me English last year.", sVn:"Thầy Bình dạy tôi tiếng Anh năm ngoái.", ans:["taught"], dist:["teached","thought"] },
+  { inf:"tell", ipaInf:"/tel/", p1:"told", ipaP1:"/təuld/", vn:"kể, bảo",
+    ex:"I told him the news.", exVn:"Tôi đã kể cho anh ấy nghe tin đó.",
+    s:"She ____ us a funny story.", sVn:"Cô ấy kể cho chúng tôi một câu chuyện vui.", ans:["told"], dist:["telled","tell"] },
+  { inf:"understand", ipaInf:"/ˌʌndəˈstænd/", p1:"understood", ipaP1:"/ˌʌndəˈstʊd/", vn:"hiểu",
+    ex:"I understood the question.", exVn:"Tôi đã hiểu câu hỏi.",
+    s:"I ____ the lesson after the teacher explained it.", sVn:"Tôi hiểu bài sau khi cô giáo giải thích.", ans:["understood"], dist:["understanded","understand"] },
+  { inf:"wake", ipaInf:"/weɪk/", p1:"woke", ipaP1:"/wəuk/", vn:"thức dậy",
+    ex:"I woke up at six.", exVn:"Tôi đã thức dậy lúc sáu giờ.",
+    s:"I ____ up at six o'clock this morning.", sVn:"Sáng nay tôi thức dậy lúc 6 giờ.", ans:["woke"], dist:["waked","woken"] },
+];
+
+const TOTAL = VERBS.length;
+const PASS_RATIO = 0.8;
+const QTOTAL = TOTAL * 2; // mỗi từ: 1 trắc nghiệm + 1 tự luận
+const PASS_NEED = Math.ceil(QTOTAL * PASS_RATIO - 1e-9); // số câu đúng tối thiểu
+
+/* ===================== STATE ===================== */
+let fcOrder = VERBS.map((_, i) => i);
+let fcPos = 0;
+let fcSeen = new Array(TOTAL).fill(false);
+
+let questions = [];
+let qIndex = 0;
+let score = 0;
+let answeredCurrent = false;
+let missed = [];
+let attempts = [];
+let attemptNo = 0;
+let timerSeconds = 0;
+let timerInterval = null;
+
+/* ===================== HELPERS ===================== */
+function $(id){ return document.getElementById(id); }
+function shuffle(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(function(s){ s.classList.remove("active"); });
+  $(id).classList.add("active");
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+function normalize(str){
+  return str.toLowerCase().replace(/[.!?,'’"]/g, "").replace(/\s+/g, " ").trim();
+}
+function formatTime(sec){
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+}
+function pattern(v){ return v.inf + " → " + v.p1; }
+function escapeHtml(t){
+  return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+/* ===================== FLASHCARDS ===================== */
+const dotsEl = $("flash-dots");
+VERBS.forEach(function(_, pos){
+  const d = document.createElement("div");
+  d.className = "flash-dot";
+  d.dataset.pos = pos;
+  d.addEventListener("click", function(){ fcPos = pos; renderCard(); });
+  dotsEl.appendChild(d);
+});
+$("fc-total").textContent = TOTAL;
+$("fc-seen-total").textContent = TOTAL;
+$("intro-total").textContent = TOTAL;
+$("q-total").textContent = QTOTAL;
+
+function renderCard(){
+  const v = VERBS[fcOrder[fcPos]];
+  $("fc-inf").textContent = v.inf;
+  $("fc-ipa-inf").textContent = v.ipaInf;
+  $("fc-vn").textContent = v.vn;
+  $("fc-p1").textContent = v.p1;
+  $("fc-ipa-p1").textContent = v.ipaP1;
+  $("fc-ex").textContent = v.ex;
+  $("fc-ex-vn").textContent = v.exVn;
+  $("fc-index").textContent = fcPos + 1;
+  $("flash-card").classList.remove("flipped");
+  refreshDots();
+}
+function refreshDots(){
+  const dots = document.querySelectorAll(".flash-dot");
+  let seen = 0;
+  dots.forEach(function(d, pos){
+    const isSeen = fcSeen[fcOrder[pos]];
+    if (isSeen) seen++;
+    d.classList.toggle("seen", isSeen);
+    d.classList.toggle("current", pos === fcPos);
+  });
+  $("fc-seen").textContent = seen;
+}
+function flipCard(){
+  const card = $("flash-card");
+  card.classList.toggle("flipped");
+  if (card.classList.contains("flipped")){
+    fcSeen[fcOrder[fcPos]] = true;
+    refreshDots();
+  }
+}
+function cardMove(delta){
+  fcPos = (fcPos + delta + TOTAL) % TOTAL;
+  renderCard();
+}
+$("flash-card").addEventListener("click", flipCard);
+$("fc-prev").addEventListener("click", function(){ cardMove(-1); });
+$("fc-next").addEventListener("click", function(){ cardMove(1); });
+$("fc-shuffle").addEventListener("click", function(){
+  fcOrder = shuffle(VERBS.map((_, i) => i));
+  fcPos = 0;
+  renderCard();
+});
+document.addEventListener("keydown", function(e){
+  if (!$("screen-flashcards").classList.contains("active")) return;
+  if (e.key === "ArrowRight") cardMove(1);
+  else if (e.key === "ArrowLeft") cardMove(-1);
+  else if (e.key === " "){ e.preventDefault(); flipCard(); }
+});
+
+/* ===================== NAVIGATION ===================== */
+$("btn-start-flashcards").addEventListener("click", function(){
+  showScreen("screen-flashcards");
+  renderCard();
+});
+$("btn-start-exercise").addEventListener("click", startAttempt);
+$("btn-retry").addEventListener("click", startAttempt);
+$("btn-review-cards").addEventListener("click", function(){
+  showScreen("screen-flashcards");
+  renderCard();
+});
+
+/* ===================== TIMER ===================== */
+function startTimer(){
+  stopTimer();
+  timerSeconds = 0;
+  $("ex-timer").textContent = "00:00";
+  timerInterval = setInterval(function(){
+    timerSeconds++;
+    $("ex-timer").textContent = formatTime(timerSeconds);
+  }, 1000);
+}
+function stopTimer(){
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+/* ===================== QUESTION BUILDING ===================== */
+function buildQuestion(vi, isMcq, kind){
+  const v = VERBS[vi];
+  const q = { vi:vi, mcq:isMcq, kind:kind, hint:"", vn:"" };
+  const withInf = v.s.replace("____", "____ (" + v.inf + ")");
+
+  if (kind === "cloze"){
+    q.typeLabel = isMcq ? "Trắc nghiệm" : "Tự luận";
+    q.main = escapeHtml(withInf).replace("____", '<span class="q-blank">____</span>');
+    q.vn = v.sVn;
+    q.hint = "Gợi ý: <strong>" + v.inf + "</strong> = " + v.vn + ". Chia động từ ở thì quá khứ đơn.";
+    q.answers = v.ans;
+    q.placeholder = "Gõ dạng quá khứ của " + v.inf + "...";
+    q.options = isMcq ? shuffle([v.ans[0], v.dist[0], v.dist[1]]) : null;
+    q.correctText = v.ans[0];
+  } else if (kind === "form"){
+    q.typeLabel = isMcq ? "Trắc nghiệm" : "Tự luận";
+    q.main = "Dạng quá khứ (P1) của động từ <strong>" + v.inf + "</strong> (" + escapeHtml(v.vn) + ") là gì?";
+    q.hint = "Gợi ý: nhớ lại flashcard — " + v.inf + " " + v.ipaInf;
+    q.answers = v.p1Accept || [v.p1];
+    q.placeholder = "Gõ dạng quá khứ (P1)...";
+    q.correctText = v.p1;
+    if (isMcq){
+      const wrong = v.p1Accept ? ["been","beed"] : [v.dist[0], v.dist[1]];
+      q.options = shuffle([v.p1, wrong[0], wrong[1]]);
+    }
+  } else { // reverse
+    q.typeLabel = isMcq ? "Trắc nghiệm" : "Tự luận";
+    q.main = "<strong>" + escapeHtml(v.p1) + "</strong> là dạng quá khứ của động từ nào?";
+    q.hint = "Gợi ý: chọn/gõ dạng nguyên mẫu (V-inf). Nghĩa: " + v.vn + ".";
+    q.answers = [v.inf];
+    q.placeholder = "Gõ dạng nguyên mẫu (V-inf)...";
+    q.correctText = v.inf;
+    if (isMcq){
+      const others = shuffle(VERBS.map((_, i) => i).filter(i => i !== vi)).slice(0, 2).map(i => VERBS[i].inf);
+      q.options = shuffle([v.inf].concat(others));
+    }
+  }
+  return q;
+}
+function buildQuestions(){
+  // Mỗi động từ xuất hiện 2 lần: 1 trắc nghiệm + 1 tự luận, hai câu khác dạng nhau.
+  const kinds = ["cloze","form","reverse"];
+  let qs = [];
+  VERBS.forEach(function(v, vi){
+    const k1 = kinds[Math.floor(Math.random()*3)];
+    const rest = kinds.filter(function(k){ return k !== k1; });
+    const k2 = rest[Math.floor(Math.random()*2)];
+    const mcqFirst = Math.random() < 0.5;
+    qs.push(buildQuestion(vi, true,  mcqFirst ? k1 : k2));
+    qs.push(buildQuestion(vi, false, mcqFirst ? k2 : k1));
+  });
+  // Trộn, đồng thời tránh 2 câu của cùng một động từ đứng liền nhau
+  for (let tries = 0; tries < 200; tries++){
+    qs = shuffle(qs);
+    let ok = true;
+    for (let i = 1; i < qs.length; i++){ if (qs[i].vi === qs[i-1].vi){ ok = false; break; } }
+    if (ok) break;
+  }
+  return qs;
+}
+
+/* ===================== EXERCISE ===================== */
+function startAttempt(){
+  attemptNo++;
+  questions = buildQuestions();
+  qIndex = 0;
+  score = 0;
+  missed = [];
+  $("ex-attempt").textContent = "Lần " + attemptNo;
+  $("ex-score").textContent = "0/" + QTOTAL;
+  $("ex-progress").style.width = "0%";
+  showScreen("screen-exercise");
+  startTimer();
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = questions[qIndex];
+  answeredCurrent = false;
+  $("q-index").textContent = qIndex + 1;
+  $("q-type").textContent = q.typeLabel;
+  $("q-main").innerHTML = q.main;
+  $("q-vn").textContent = q.vn;
+  $("q-vn").style.display = q.vn ? "block" : "none";
+  $("q-hint").innerHTML = q.hint;
+  $("q-feedback").className = "feedback";
+  $("q-feedback").innerHTML = "";
+  $("btn-next-q").style.display = "none";
+
+  const mcqEl = $("q-mcq"), typedEl = $("q-typed");
+  mcqEl.innerHTML = "";
+  if (q.mcq){
+    typedEl.style.display = "none";
+    mcqEl.style.display = "flex";
+    $("btn-check").style.display = "none";
+    q.options.forEach(function(opt, i){
+      const b = document.createElement("button");
+      b.className = "option";
+      b.type = "button";
+      b.dataset.value = opt;
+      b.innerHTML = '<span class="letter">' + "ABC"[i] + "</span><span>" + escapeHtml(opt) + "</span>";
+      b.addEventListener("click", function(){ chooseOption(b, opt); });
+      mcqEl.appendChild(b);
+    });
+  } else {
+    mcqEl.style.display = "none";
+    typedEl.style.display = "block";
+    $("btn-check").style.display = "inline-block";
+    const input = $("answer-input");
+    input.value = "";
+    input.disabled = false;
+    input.className = "answer-input";
+    input.placeholder = q.placeholder;
+    input.focus();
+  }
+}
+
+function recordResult(isCorrect){
+  const q = questions[qIndex];
+  answeredCurrent = true;
+  if (isCorrect) score++;
+  else missed.push(q.vi);
+  $("ex-score").textContent = score + "/" + QTOTAL;
+  $("ex-progress").style.width = ((qIndex + 1) / QTOTAL * 100) + "%";
+  $("btn-next-q").style.display = "inline-block";
+  $("btn-next-q").textContent = (qIndex === QTOTAL - 1) ? "Xem kết quả ›" : "Câu tiếp theo ›";
+  $("btn-check").style.display = "none";
+}
+
+function showFeedback(isCorrect, q){
+  const v = VERBS[q.vi];
+  const fb = $("q-feedback");
+  if (isCorrect){
+    fb.className = "feedback show correct";
+    fb.innerHTML = "✅ Chính xác! <span class='pattern'>" + escapeHtml(pattern(v)) + "</span>";
+  } else {
+    fb.className = "feedback show incorrect";
+    fb.innerHTML = "❌ Chưa đúng. Đáp án đúng: <strong>" + escapeHtml(q.correctText) + "</strong><span class='pattern'>Ghi nhớ: " + escapeHtml(pattern(v)) + "</span>";
+  }
+}
+
+function chooseOption(btn, value){
+  if (answeredCurrent) return;
+  const q = questions[qIndex];
+  const isCorrect = normalize(value) === normalize(q.correctText);
+  document.querySelectorAll("#q-mcq .option").forEach(function(o){
+    o.disabled = true;
+    if (normalize(o.dataset.value) === normalize(q.correctText)) o.classList.add("correct");
+  });
+  if (!isCorrect) btn.classList.add("wrong");
+  showFeedback(isCorrect, q);
+  recordResult(isCorrect);
+}
+
+function checkTyped(){
+  if (answeredCurrent) return;
+  const q = questions[qIndex];
+  const input = $("answer-input");
+  const user = normalize(input.value);
+  if (!user) { input.focus(); return; }
+  const isCorrect = q.answers.some(function(a){ return normalize(a) === user; });
+  input.disabled = true;
+  input.classList.add(isCorrect ? "correct" : "incorrect");
+  showFeedback(isCorrect, q);
+  recordResult(isCorrect);
+}
+
+$("btn-check").addEventListener("click", checkTyped);
+$("answer-input").addEventListener("keydown", function(e){
+  if (e.key === "Enter"){
+    e.preventDefault();
+    e.stopPropagation(); // tránh sự kiện lan lên document và nhảy sang câu kế tiếp ngay
+    checkTyped();
+  }
+});
+document.addEventListener("keydown", function(e){
+  if (e.key !== "Enter") return;
+  if (!$("screen-exercise").classList.contains("active")) return;
+  if (answeredCurrent){
+    e.preventDefault();
+    nextQuestion();
+  }
+});
+function nextQuestion(){
+  if (!answeredCurrent) return;
+  if (qIndex < QTOTAL - 1){
+    qIndex++;
+    renderQuestion();
+  } else {
+    finishAttempt();
+  }
+}
+$("btn-next-q").addEventListener("click", nextQuestion);
+
+/* ===================== RESULTS ===================== */
+function finishAttempt(){
+  stopTimer();
+  const pct = Math.round(score / QTOTAL * 100);
+  const passed = score >= PASS_NEED;
+  attempts.push({ no:attemptNo, score:score, pct:pct, time:timerSeconds, passed:passed });
+
+  $("res-score").textContent = score;
+  $("res-total").textContent = QTOTAL;
+  $("res-percent").textContent = pct + "%";
+  $("res-time").textContent = "Thời gian: " + formatTime(timerSeconds);
+  $("res-attempt").textContent = "Lần làm thứ " + attemptNo;
+
+  const badge = $("res-badge");
+  badge.className = "badge " + (passed ? "pass" : "fail");
+  badge.textContent = passed ? "✅ ĐẠT YÊU CẦU (≥ 80%)" : "❌ CHƯA ĐẠT (cần ≥ 80%)";
+
+  let msg;
+  if (pct === 100) msg = "🏆 Tuyệt đỉnh! Em đã nhớ hết tất cả động từ bất quy tắc. Cô rất tự hào về em!";
+  else if (pct >= 90) msg = "🌟 Xuất sắc! Em gần như thuộc làu rồi, chỉ còn vài từ nữa thôi!";
+  else if (passed) msg = "👏 Giỏi lắm! Em đã đạt yêu cầu, hãy tiếp tục ôn để nhớ thật lâu nhé!";
+  else if (pct >= 60) msg = "💪 Em làm khá rồi, chỉ còn một chút nữa là đạt! Ôn lại các từ bị sai rồi thử lại nhé.";
+  else msg = "🌱 Đừng nản nhé! Ai cũng cần luyện tập nhiều lần. Xem lại flashcard rồi thử lại, em sẽ tiến bộ nhanh thôi!";
+  $("res-msg").textContent = msg;
+
+  const action = $("res-action");
+  if (passed){
+    action.className = "action-note pass";
+    action.innerHTML = '<span class="emoji">📸</span>Em đã đạt từ 80% trở lên rồi! Hãy <u>chụp ảnh màn hình kết quả này</u> và gửi cho cô nhé!';
+  } else {
+    action.className = "action-note fail";
+    action.innerHTML = '<span class="emoji">🔁</span>Em chưa đạt 80% (cần đúng ít nhất ' + PASS_NEED + '/' + QTOTAL + ' câu). Hãy ôn lại và <u>làm lại cho đủ 80%</u>, sau đó chụp ảnh màn hình kết quả gửi cho cô nhé!';
+  }
+
+  const missedWrap = $("res-missed-wrap"), missedList = $("res-missed");
+  missedList.innerHTML = "";
+  if (missed.length){
+    missedWrap.style.display = "block";
+    Array.from(new Set(missed)).sort(function(a, b){ return a - b; }).forEach(function(vi){
+      const c = document.createElement("span");
+      c.className = "missed-chip";
+      c.textContent = pattern(VERBS[vi]);
+      missedList.appendChild(c);
+    });
+  } else {
+    missedWrap.style.display = "none";
+  }
+
+  let html = "";
+  if (attempts.length > 1){
+    html += "<strong>Các lần làm:</strong><table><tr><th>Lần</th><th>Điểm</th><th>%</th><th>Thời gian</th></tr>";
+    attempts.forEach(function(a){
+      html += "<tr><td>" + a.no + "</td><td>" + a.score + "/" + QTOTAL + "</td><td>" + a.pct + "%" + (a.passed ? " ✅" : "") + "</td><td>" + formatTime(a.time) + "</td></tr>";
+    });
+    html += "</table>";
+  }
+  $("res-history").innerHTML = html;
+
+  $("btn-retry").textContent = passed ? "🔁 Luyện thêm một lần nữa" : "🔁 Làm lại bài tập";
+  showScreen("screen-results");
+}
+</script>
+</body>
+</html>
